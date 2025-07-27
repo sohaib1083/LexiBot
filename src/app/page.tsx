@@ -82,16 +82,16 @@ export default function Home() {
           }`}>
             {/* Enhanced Badge */}
             <div className="flex justify-center mb-6 animate-elasticIn">
-              <span className="inline-flex items-center px-6 py-2 rounded-full glass-effect border border-amber-400/30 text-amber-400 text-sm font-semibold shadow-lg animate-glow neon-border">
-                <Star className="w-4 h-4 mr-2 animate-sparkle" />
+              <span className="inline-flex items-center px-6 py-2 rounded-full glass-effect border border-amber-400/30 text-amber-400 text-sm font-semibold shadow-lg animate-glow">
+                <Star className="w-4 h-4 mr-2" />
                 FREE Trial • No Subscription Required
               </span>
             </div>
 
-            {/* Enhanced Main Heading with Glitch Effect */}
+            {/* Enhanced Main Heading */}
             <h1 className="text-5xl sm:text-7xl font-extrabold leading-tight animate-slideInRight">
-              <span className="block gradient-text animate-gradientShift animate-neonGlow mb-4" data-text="Your AI">Your AI</span>
-              <span className="block gradient-text animate-gradientShift animate-neonGlow" style={{animationDelay: '0.5s'}} data-text="Legal Assistant">Legal Assistant</span>
+              <span className="block gradient-text animate-gradientShift mb-4" data-text="Your AI">Your AI</span>
+              <span className="block gradient-text animate-gradientShift" style={{animationDelay: '0.5s'}} data-text="Legal Assistant">Legal Assistant</span>
             </h1>
 
             {/* Subtitle */}
@@ -114,15 +114,15 @@ export default function Home() {
             {/* Enhanced Trust Indicators */}
             <div className="flex justify-center gap-8 mt-8 flex-wrap animate-slideAndFade" style={{animationDelay: '1.5s'}}>
               <div className="flex items-center gap-2 group hover-lift">
-                <Lock className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform duration-300 animate-pulse" />
+                <Lock className="w-5 h-5 text-green-400 group-hover:scale-110 transition-transform duration-300" />
                 <span className="text-sm text-slate-400 group-hover:text-green-400 transition-colors duration-300">Private & Secure</span>
               </div>
               <div className="flex items-center gap-2 group hover-lift">
-                <Star className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform duration-300 animate-sparkle" />
+                <Star className="w-5 h-5 text-amber-400 group-hover:scale-110 transition-transform duration-300" />
                 <span className="text-sm text-slate-400 group-hover:text-amber-400 transition-colors duration-300">Trusted by 50K+ Users</span>
               </div>
               <div className="flex items-center gap-2 group hover-lift">
-                <Zap className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform duration-300 animate-float" />
+                <Zap className="w-5 h-5 text-blue-400 group-hover:scale-110 transition-transform duration-300" />
                 <span className="text-sm text-slate-400 group-hover:text-blue-400 transition-colors duration-300">Instant Results</span>
               </div>
             </div>
@@ -137,9 +137,9 @@ export default function Home() {
                 const Icon = stat.icon;
                 return (
                   <div key={index} className="text-center group animate-slideInLeft tilt-card" style={{animationDelay: `${index * 0.2}s`}}>
-                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-400/20 neon-border">
+                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-400/20">
                       <Icon className="w-8 h-8 text-amber-400 mx-auto mb-4 group-hover:scale-110 transition-transform duration-300 animate-zoomInOut" />
-                      <div className="text-3xl font-bold gradient-text mb-2 animate-neonGlow">{stat.number}</div>
+                      <div className="text-3xl font-bold gradient-text mb-2">{stat.number}</div>
                       <div className="text-slate-400 text-sm group-hover:text-slate-300 transition-colors duration-300">{stat.label}</div>
                     </div>
                   </div>
@@ -152,7 +152,7 @@ export default function Home() {
         {/* Enhanced How It Works */}
         <section className="py-20 px-4 cyber-grid">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-center gradient-text mb-16 animate-fadeIn animate-neonGlow">How It Works</h2>
+            <h2 className="text-4xl font-bold text-center gradient-text mb-16 animate-fadeIn">How It Works</h2>
             <div className="grid md:grid-cols-3 gap-12">
               {[
                 { icon: Upload, title: "Upload Document", desc: "Choose your legal PDF (up to 30 pages)", step: "1" },
@@ -162,14 +162,14 @@ export default function Home() {
                 const Icon = item.icon;
                 return (
                   <div key={index} className="relative text-center group animate-slideInLeft tilt-card" style={{animationDelay: `${index * 0.3}s`}}>
-                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-400/20 neon-border">
+                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-400/20">
                       {/* Enhanced Step Number */}
-                      <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 font-bold text-sm animate-bounce animate-glow">
+                      <div className="absolute -top-4 -left-4 w-8 h-8 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 font-bold text-sm animate-bounce">
                         {item.step}
                       </div>
                       
                       <Icon className="w-16 h-16 text-amber-400 mx-auto mb-6 group-hover:scale-110 group-hover:rotate-12 transition-all duration-500 animate-zoomInOut" />
-                      <h3 className="text-xl font-bold mb-4 group-hover:text-amber-400 transition-colors duration-300 gradient-text">{item.title}</h3>
+                      <h3 className="text-xl font-bold mb-4 group-hover:text-amber-400 transition-colors duration-300">{item.title}</h3>
                       <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300">{item.desc}</p>
                     </div>
                   </div>
@@ -182,7 +182,7 @@ export default function Home() {
         {/* Enhanced Features Grid */}
         <section className="py-20 px-4 aurora-bg">
           <div className="max-w-6xl mx-auto">
-            <h2 className="text-4xl font-bold text-center gradient-text mb-16 animate-fadeIn animate-neonGlow">Why Choose LexiBot?</h2>
+            <h2 className="text-4xl font-bold text-center gradient-text mb-16 animate-fadeIn">Why Choose LexiBot?</h2>
             <div className="grid md:grid-cols-2 gap-8">
               {[
                 { icon: ShieldCheck, title: "Private & Secure", desc: "Files are encrypted and auto-deleted after use. Your privacy is our priority.", color: "green" },
@@ -193,13 +193,13 @@ export default function Home() {
                 const Icon = feature.icon;
                 return (
                   <div key={index} className="group animate-slideInRight tilt-card" style={{animationDelay: `${index * 0.2}s`}}>
-                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-400/20 neon-border">
+                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-amber-400/20">
                       <div className="flex items-start space-x-4">
                         <div className={`p-3 rounded-xl bg-${feature.color}-400/20 group-hover:scale-110 transition-transform duration-300 animate-float`}>
-                          <Icon className={`w-6 h-6 text-${feature.color}-400 animate-sparkle`} />
+                          <Icon className={`w-6 h-6 text-${feature.color}-400`} />
                         </div>
                         <div>
-                          <h3 className="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors duration-300 gradient-text">{feature.title}</h3>
+                          <h3 className="text-xl font-bold mb-2 group-hover:text-amber-400 transition-colors duration-300">{feature.title}</h3>
                           <p className="text-slate-400 group-hover:text-slate-300 transition-colors duration-300">{feature.desc}</p>
                         </div>
                       </div>
@@ -251,17 +251,17 @@ export default function Home() {
           </div>
           
           <div className="max-w-4xl mx-auto text-center relative z-10">
-            <h2 className="text-4xl font-bold gradient-text mb-6 animate-fadeIn animate-neonGlow">Ready to Get Started?</h2>
+            <h2 className="text-4xl font-bold gradient-text mb-6 animate-fadeIn">Ready to Get Started?</h2>
             <p className="text-xl text-slate-300 mb-8 animate-fadeIn" style={{animationDelay: '0.3s'}}>
               Upload your document and get instant legal insights - <span className="gradient-text font-bold">FREE Trial Available!</span>
             </p>
             <Link
               href="/upload"
-              className="group inline-flex items-center px-12 py-5 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 font-bold text-xl shadow-2xl hover:shadow-amber-400/50 transition-all duration-500 hover:scale-110 animate-glow animate-elasticIn tilt-card neon-border"
+              className="group inline-flex items-center px-12 py-5 rounded-2xl bg-gradient-to-r from-amber-400 to-orange-500 text-slate-900 font-bold text-xl shadow-2xl hover:shadow-amber-400/50 transition-all duration-500 hover:scale-110 animate-glow animate-elasticIn tilt-card"
               style={{animationDelay: '0.6s'}}
             >
               Start Your Legal Analysis
-              <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-2 animate-wiggle" />
+              <ArrowRight className="ml-3 w-6 h-6 transition-transform duration-300 group-hover:translate-x-2" />
             </Link>
           </div>
         </section>

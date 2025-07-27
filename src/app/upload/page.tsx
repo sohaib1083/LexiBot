@@ -118,30 +118,30 @@ export default function UploadPage() {
         <div className={`text-center mb-12 transition-all duration-1000 ${
           isVisible ? 'animate-slideAndFade' : 'opacity-0 translate-y-10'
         }`}>
-          <h1 className="text-4xl sm:text-5xl font-bold gradient-text animate-gradientShift animate-neonGlow mb-6">
+          <h1 className="text-4xl sm:text-5xl font-bold gradient-text animate-gradientShift mb-6">
             Upload Your Document
           </h1>
           <p className="text-xl text-slate-300 max-w-2xl mx-auto">
             Upload any legal PDF and get instant AI-powered insights. 
-            <span className="text-amber-400 font-semibold gradient-text"> Your files are secure and auto-deleted.</span>
+            <span className="text-amber-400 font-semibold"> Your files are secure and auto-deleted.</span>
           </p>
         </div>
 
-        {/* Security Features */}
+        {/* Enhanced Security Features */}
         <div className={`grid md:grid-cols-3 gap-6 mb-12 transition-all duration-1000 delay-300 ${
           isVisible ? 'animate-slideInLeft' : 'opacity-0 translate-x-10'
         }`}>
-          <div className="card text-center group hover:scale-105 transition-all duration-500">
+          <div className="card text-center group hover:scale-105 transition-all duration-500 tilt-card">
             <Shield className="w-8 h-8 text-green-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
             <h3 className="font-semibold text-green-400 mb-2">Encrypted</h3>
             <p className="text-sm text-slate-400">End-to-end encryption</p>
           </div>
-          <div className="card text-center group hover:scale-105 transition-all duration-500">
+          <div className="card text-center group hover:scale-105 transition-all duration-500 tilt-card">
             <Clock className="w-8 h-8 text-blue-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
             <h3 className="font-semibold text-blue-400 mb-2">Auto-Delete</h3>
             <p className="text-sm text-slate-400">Files deleted after use</p>
           </div>
-          <div className="card text-center group hover:scale-105 transition-all duration-500">
+          <div className="card text-center group hover:scale-105 transition-all duration-500 tilt-card">
             <FileText className="w-8 h-8 text-amber-400 mx-auto mb-3 group-hover:scale-110 transition-transform duration-300" />
             <h3 className="font-semibold text-amber-400 mb-2">PDF Only</h3>
             <p className="text-sm text-slate-400">Up to 30 pages</p>
