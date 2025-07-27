@@ -1,0 +1,27 @@
+This is a test legal document for LexiBot RAG testing.
+
+LEGAL CONTRACT AGREEMENT
+
+PARTIES:
+This agreement is between Company A (the "Client") and Company B (the "Service Provider").
+
+TERMS AND CONDITIONS:
+1. The Service Provider shall deliver consulting services to the Client.
+2. The contract duration is 12 months starting from January 1, 2024.
+3. Payment terms: Net 30 days after invoice date.
+4. Either party may terminate this agreement with 30 days written notice.
+
+INTELLECTUAL PROPERTY:
+All work products created under this agreement shall belong to the Client.
+
+CONFIDENTIALITY:
+Both parties agree to maintain confidentiality of all proprietary information.
+
+GOVERNING LAW:
+This agreement shall be governed by the laws of California.
+
+DISPUTE RESOLUTION:
+Any disputes shall be resolved through binding arbitration in San Francisco, California.
+
+SIGNATURES:
+This agreement was signed on December 15, 2023.
