@@ -5,9 +5,27 @@ import axios from "axios";
 import path from "path";
 import fs from "fs";
 
-// Directory for storing vector databases
-const VECTOR_STORE_DIR = path.join(process.cwd(), "vector-stores");
-const DOCUMENT_STORE_DIR = path.join(process.cwd(), "document-stores");
+// In-memory storage for documents (will be lost on server restart but works for serverless)
+// In production, you'd want to use a database like Supabase, PlanetScale, etc.
+const documentCache = new Map<string, {
+  text: string;
+  documentId: string;
+  chunks: Array<{
+    id: number;
+    content: string;
+    metadata: any;
+    embedding: number[];
+  }>;
+  createdAt: string;
+}>();
+
+// Directory for storing vector databases (fallback for local development)
+const VECTOR_STORE_DIR = process.env.NODE_ENV === 'production' 
+  ? '/tmp/vector-stores'
+  : path.join(process.cwd(), "vector-stores");
+const DOCUMENT_STORE_DIR = process.env.NODE_ENV === 'production'
+  ? '/tmp/document-stores'  
+  : path.join(process.cwd(), "document-stores");
 
 // Create the directory if it doesn't exist
 if (!fs.existsSync(VECTOR_STORE_DIR)) {
@@ -46,72 +64,141 @@ function cosineSimilarity(vec1: number[], vec2: number[]): number {
 }
 
 /**
- * Process document text and store it in a vector database
+ * Process document text and store it in memory and optionally in file system
  */
 export async function createVectorStore(text: string, documentId: string): Promise<string> {
-  // Create a unique ID for the vector store
-  const vectorStoreId = uuidv4();
-  const vectorStorePath = path.join(VECTOR_STORE_DIR, `${vectorStoreId}.json`);
+  try {
+    console.log("createVectorStore called with text length:", text.length);
+    
+    // Check if required environment variables are available
+    const groqApiKey = process.env.GROQ_API_KEY;
+    if (!groqApiKey) {
+      throw new Error("GROQ_API_KEY environment variable is not set");
+    }
+    
+    // Create a unique ID for the vector store
+    const vectorStoreId = uuidv4();
+    
+    console.log("Creating vector store with ID:", vectorStoreId);
 
-  // Split the text into chunks
-  const textSplitter = new RecursiveCharacterTextSplitter({
-    chunkSize: 1000,
-    chunkOverlap: 200,
-  });
+    // Split the text into chunks
+    const textSplitter = new RecursiveCharacterTextSplitter({
+      chunkSize: 1000,
+      chunkOverlap: 200,
+    });
 
-  const splitDocs = await textSplitter.createDocuments([text], [{ documentId }]);
-  
-  // Create vector store data
-  const vectorData = {
-    documentId,
-    chunks: splitDocs.map((doc, index) => ({
+    console.log("Splitting text into chunks...");
+    const splitDocs = await textSplitter.createDocuments([text], [{ documentId }]);
+    console.log("Created", splitDocs.length, "chunks");
+    
+    // Create vector store data with embeddings
+    const chunks = splitDocs.map((doc, index) => ({
       id: index,
       content: doc.pageContent,
       metadata: doc.metadata,
       embedding: createSimpleEmbedding(doc.pageContent)
-    })),
-    createdAt: new Date().toISOString()
-  };
+    }));
 
-  // Save to file
-  fs.writeFileSync(vectorStorePath, JSON.stringify(vectorData, null, 2));
+    const vectorData = {
+      text: text, // Store original text for regeneration if needed
+      documentId,
+      chunks,
+      createdAt: new Date().toISOString()
+    };
 
-  return vectorStoreId;
+    // Store in memory cache (primary storage for Vercel)
+    documentCache.set(vectorStoreId, vectorData);
+    console.log("Vector store cached in memory for ID:", vectorStoreId);
+
+    // Also try to save to file system for local development
+    try {
+      const vectorStorePath = path.join(VECTOR_STORE_DIR, `${vectorStoreId}.json`);
+      
+      // Ensure directory exists
+      if (!fs.existsSync(VECTOR_STORE_DIR)) {
+        console.log("Creating vector store directory:", VECTOR_STORE_DIR);
+        fs.mkdirSync(VECTOR_STORE_DIR, { recursive: true });
+      }
+
+      fs.writeFileSync(vectorStorePath, JSON.stringify(vectorData, null, 2));
+      console.log("Vector store also saved to file system");
+    } catch (fileError) {
+      console.log("File system storage failed (expected in production):", (fileError as Error).message);
+    }
+
+    return vectorStoreId;
+  } catch (error) {
+    console.error("Error in createVectorStore:", error);
+    throw new Error(`Failed to create vector store: ${(error as Error).message}`);
+  }
 }
 
 /**
  * Query for similar documents from the vector store
  */
 export async function querySimilarDocs(vectorStoreId: string, query: string, limit: number = 3): Promise<string[]> {
-  let vectorStorePath = path.join(VECTOR_STORE_DIR, `${vectorStoreId}.json`);
-  
-  // Check both vector-stores and document-stores directories
-  if (!fs.existsSync(vectorStorePath)) {
-    vectorStorePath = path.join(DOCUMENT_STORE_DIR, `${vectorStoreId}.json`);
-  }
-  
-  if (!fs.existsSync(vectorStorePath)) {
-    throw new Error(`Vector store ${vectorStoreId} not found`);
-  }
-
-  const vectorData = JSON.parse(fs.readFileSync(vectorStorePath, 'utf8'));
-  const queryEmbedding = createSimpleEmbedding(query);
-  
-  // Calculate similarities and sort
-  const similarities = vectorData.chunks.map((chunk: any) => {
-    // Generate embedding if it doesn't exist (for backward compatibility)
-    const chunkEmbedding = chunk.embedding || createSimpleEmbedding(chunk.content);
+  try {
+    console.log("Querying vector store:", vectorStoreId);
     
-    return {
-      content: chunk.content,
-      similarity: cosineSimilarity(queryEmbedding, chunkEmbedding)
-    };
-  });
-  
-  // Sort by similarity (highest first) and return top results
-  similarities.sort((a: any, b: any) => b.similarity - a.similarity);
-  
-  return similarities.slice(0, limit).map((item: any) => item.content);
+    let vectorData: any = null;
+    
+    // First, try to get from memory cache
+    if (documentCache.has(vectorStoreId)) {
+      vectorData = documentCache.get(vectorStoreId);
+      console.log("Found vector store in memory cache");
+    } else {
+      console.log("Vector store not found in memory, trying file system...");
+      
+      // Fallback to file system (for local development or if files persist)
+      let vectorStorePath = path.join(VECTOR_STORE_DIR, `${vectorStoreId}.json`);
+      
+      // Check both vector-stores and document-stores directories
+      if (!fs.existsSync(vectorStorePath)) {
+        vectorStorePath = path.join(DOCUMENT_STORE_DIR, `${vectorStoreId}.json`);
+      }
+      
+      if (fs.existsSync(vectorStorePath)) {
+        console.log("Reading vector store from file:", vectorStorePath);
+        vectorData = JSON.parse(fs.readFileSync(vectorStorePath, 'utf8'));
+        
+        // Cache it in memory for future use
+        documentCache.set(vectorStoreId, vectorData);
+        console.log("Cached vector store in memory from file");
+      }
+    }
+    
+    if (!vectorData) {
+      console.error("Vector store not found in memory or file system for ID:", vectorStoreId);
+      console.log("Available cache keys:", Array.from(documentCache.keys()));
+      throw new Error(`Vector store ${vectorStoreId} not found. Please upload your document again.`);
+    }
+
+    console.log("Processing", vectorData.chunks?.length || 0, "chunks");
+    
+    const queryEmbedding = createSimpleEmbedding(query);
+    
+    // Calculate similarities and sort
+    const similarities = vectorData.chunks.map((chunk: any) => {
+      // Generate embedding if it doesn't exist (for backward compatibility)
+      const chunkEmbedding = chunk.embedding || createSimpleEmbedding(chunk.content);
+      
+      return {
+        content: chunk.content,
+        similarity: cosineSimilarity(queryEmbedding, chunkEmbedding)
+      };
+    });
+    
+    // Sort by similarity (highest first) and return top results
+    similarities.sort((a: any, b: any) => b.similarity - a.similarity);
+    
+    const results = similarities.slice(0, limit).map((item: any) => item.content);
+    console.log("Returning", results.length, "similar documents");
+    
+    return results;
+  } catch (error) {
+    console.error("Error in querySimilarDocs:", error);
+    throw new Error(`Failed to query vector store: ${(error as Error).message}`);
+  }
 }
 
 /**
