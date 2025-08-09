@@ -278,8 +278,13 @@ Remember: You are providing legal document analysis, not legal advice. Always re
  */
 export async function askQuestion(collectionId: string, question: string): Promise<string> {
   try {
+    console.log("askQuestion called with:", { collectionId, question });
+    
     const docs = await querySimilarDocs(collectionId, question, 3);
+    console.log("Retrieved docs:", docs.length, "documents");
+    
     const contextText = docs.join('\n\n');
+    console.log("Context text length:", contextText.length);
     
     const prompt = `
 LEGAL DOCUMENT ANALYSIS REQUEST
@@ -314,10 +319,26 @@ LEGAL DISCLAIMER: This analysis is based solely on the provided document and is 
 
 ANALYSIS:`;
     
+    console.log("Calling Groq API...");
     const response = await callGroqAPI(prompt);
+    console.log("Groq API response length:", response.length);
+    
     return response;
   } catch (error) {
     console.error("Error in askQuestion:", error);
-    return "I'm sorry, I encountered an error while processing your question.";
+    console.error("Error stack:", (error as Error).stack);
+    return `I'm sorry, I encountered an error while processing your question. Error details: ${(error as Error).message}`;
   }
+}
+
+/**
+ * Debug function to check cache status
+ */
+export function getCacheStatus() {
+  return {
+    cacheSize: documentCache.size,
+    cacheKeys: Array.from(documentCache.keys()),
+    environment: process.env.NODE_ENV,
+    hasGroqKey: !!process.env.GROQ_API_KEY
+  };
 }
