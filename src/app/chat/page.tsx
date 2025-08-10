@@ -1,5 +1,5 @@
 "use client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Suspense } from "react";
 import { useSearchParams } from "next/navigation";
 import { MessageCircle, Plus, Send, FileText, Settings, Trash2, BookOpen, Upload } from "lucide-react";
 
@@ -41,7 +41,7 @@ const getCategoryStarter = (category: string, language: 'english' | 'urdu' = 'en
          (language === 'urdu' ? "آپ کا قانونی سوال کیا ہے؟" : "How can I help you with your legal question?");
 };
 
-export default function ChatPage() {
+function ChatPageContent() {
   const searchParams = useSearchParams();
   const [chatMode, setChatMode] = useState<'document' | 'general'>('general');
   const [currentMessages, setCurrentMessages] = useState([
@@ -539,5 +539,26 @@ export default function ChatPage() {
         </div>
       </div>
     </div>
+  );
+}
+
+// Loading component for Suspense fallback
+function ChatPageLoading() {
+  return (
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 flex items-center justify-center">
+      <div className="text-center">
+        <div className="w-12 h-12 border-4 border-amber-400 border-t-transparent rounded-full animate-spin mx-auto mb-4"></div>
+        <p className="text-slate-300">Loading LexiBot...</p>
+      </div>
+    </div>
+  );
+}
+
+// Main export with Suspense wrapper
+export default function ChatPage() {
+  return (
+    <Suspense fallback={<ChatPageLoading />}>
+      <ChatPageContent />
+    </Suspense>
   );
 }
