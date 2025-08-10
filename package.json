@@ -6,7 +6,15 @@
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "test": "playwright test",
+    "test:headed": "playwright test --headed",
+    "test:ui": "playwright test --ui",
+    "test:report": "playwright show-report",
+    "test:mcp": "./scripts/mcp-test-generator.sh",
+    "test:preview": "./scripts/mcp-test-generator.sh",
+    "e2e": "playwright test --reporter=html",
+    "e2e:ci": "playwright test --reporter=github"
   },
   "dependencies": {
     "@langchain/community": "^0.3.15",
@@ -24,6 +32,7 @@
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
+    "@playwright/test": "^1.54.2",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

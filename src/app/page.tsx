@@ -226,7 +226,7 @@ export default function Home() {
                       : 'opacity-0 transform translate-y-8'
                   }`}
                 >
-                  <div className="card max-w-2xl mx-auto">
+                  <div className="card max-w-2xl mx-auto" data-testid="testimonial">
                     <p className="text-lg text-slate-300 italic mb-6">"{testimonial.text}"</p>
                     <div className="flex items-center justify-center space-x-4">
                       <div className="w-12 h-12 bg-gradient-to-r from-amber-400 to-orange-500 rounded-full flex items-center justify-center text-slate-900 font-bold">
@@ -240,6 +240,72 @@ export default function Home() {
                   </div>
                 </div>
               ))}
+            </div>
+          </div>
+        </section>
+
+        {/* NEW: Success Stories Section */}
+        <section className="py-20 px-4 cyber-grid">
+          <div className="max-w-6xl mx-auto">
+            <h2 className="text-4xl font-bold text-center gradient-text mb-16 animate-fadeIn">Real Success Stories</h2>
+            <div className="grid md:grid-cols-3 gap-8">
+              {[
+                {
+                  title: "Contract Dispute Resolved",
+                  description: "LexiBot helped identify key clauses that saved ₨2,00,000 in a business contract dispute.",
+                  icon: CheckCircle,
+                  savings: "₨2,00,000 Saved",
+                  category: "Business Law"
+                },
+                {
+                  title: "Property Rights Clarified", 
+                  description: "Quick analysis of property documents prevented a costly legal mistake for a family.",
+                  icon: ShieldCheck,
+                  savings: "Legal Fees Avoided",
+                  category: "Property Law"
+                },
+                {
+                  title: "Employment Rights Protected",
+                  description: "Employee understood their rights and successfully negotiated better terms using LexiBot insights.",
+                  icon: Users,
+                  savings: "Fair Settlement",
+                  category: "Employment Law"
+                }
+              ].map((story, index) => {
+                const Icon = story.icon;
+                return (
+                  <div key={index} className="group animate-slideInLeft tilt-card" style={{animationDelay: `${index * 0.2}s`}}>
+                    <div className="card hover:scale-105 transition-all duration-500 group-hover:shadow-2xl group-hover:shadow-green-400/20">
+                      <div className="flex items-center justify-between mb-4">
+                        <Icon className="w-8 h-8 text-green-400 group-hover:scale-110 transition-transform duration-300" />
+                        <span className="text-xs bg-green-400/20 text-green-400 px-2 py-1 rounded-full">{story.category}</span>
+                      </div>
+                      
+                      <h3 className="text-xl font-bold mb-3 group-hover:text-green-400 transition-colors duration-300">{story.title}</h3>
+                      <p className="text-slate-400 mb-4 group-hover:text-slate-300 transition-colors duration-300">{story.description}</p>
+                      
+                      <div className="mt-4 pt-4 border-t border-slate-700/50">
+                        <div className="flex items-center justify-between">
+                          <span className="text-green-400 font-semibold">{story.savings}</span>
+                          <Star className="w-4 h-4 text-amber-400" />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
+            
+            {/* Call to Action in Success Stories */}
+            <div className="text-center mt-12">
+              <p className="text-lg text-slate-300 mb-6">Join thousands of satisfied users who've simplified their legal understanding</p>
+              <Link
+                href="/upload"
+                className="inline-flex items-center px-6 py-3 rounded-xl bg-green-600 hover:bg-green-500 text-white font-semibold transition-all duration-300 hover:scale-105"
+              >
+                Start Your Success Story
+                <ArrowRight className="ml-2 w-4 h-4" />
+              </Link>
             </div>
           </div>
         </section>

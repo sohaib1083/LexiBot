@@ -10,5 +10,7 @@
     "github.copilot.chat.languageContext.inline.typescript.enabled": true,
     "github.copilot.chat.generateTests.codeLens": true,
     "github.copilot.chat.languageContext.typescript.enabled": true,
-    "github.copilot.chat.notebook.followCellExecution.enabled": true
+    "github.copilot.chat.notebook.followCellExecution.enabled": true,
+    "mcp.client.npmExecutionPolicy": "allowed",
+    "mcp.client.serverConfig": "/home/sohaib-shamsi/Desktop/Lawyer-Agent/lexibot/.vscode/mcp.json"
 }
