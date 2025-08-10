@@ -1,0 +1,66 @@
+# Page snapshot
+
+```yaml
+- navigation:
+  - link "LexiBot Pakistani Legal Assistant":
+    - /url: /
+  - link "Home":
+    - /url: /
+  - link "Legal Help 🇵🇰":
+    - /url: /legal-help
+  - link "Upload PDF New":
+    - /url: /upload
+  - link "Chat":
+    - /url: /chat
+  - link "About":
+    - /url: /about
+  - button
+- main:
+  - main:
+    - text: FREE Trial • No Subscription Required
+    - heading "Pakistani Legal AI Assistant قانونی مددگار - Your Legal Helper" [level=1]
+    - paragraph: Upload any Pakistani legal document and get instant, AI-powered insights in simple language. Understanding Pakistani law made easy.
+    - link "Get Started FREE":
+      - /url: /upload
+    - text: Private & Secure Trusted by 50K+ Users Instant Results 10,000+ Documents Processed 99.8% Accuracy Rate 5 min Average Response 50,000+ Happy Users
+    - heading "How It Works" [level=2]
+    - text: "1"
+    - heading "Upload Document" [level=3]
+    - paragraph: Choose your legal PDF (up to 30 pages)
+    - text: "2"
+    - heading "FREE Trial" [level=3]
+    - paragraph: No payment required. Start analyzing immediately
+    - text: "3"
+    - heading "Get Answers" [level=3]
+    - paragraph: Chat with AI and get instant insights
+    - heading "Why Choose LexiBot?" [level=2]
+    - heading "Private & Secure" [level=3]
+    - paragraph: Files are encrypted and auto-deleted after use. Your privacy is our priority.
+    - heading "FREE Trial" [level=3]
+    - paragraph: No cost, no subscriptions, no hidden fees. Start analyzing documents immediately.
+    - heading "Lightning Fast" [level=3]
+    - paragraph: Get instant AI-powered legal insights in minutes, not hours or days.
+    - heading "User Friendly" [level=3]
+    - paragraph: Simple interface designed for everyone. No legal expertise required.
+    - heading "What Users Say" [level=2]
+    - paragraph: "\"LexiBot helped me understand my contract terms in minutes. Incredible!\""
+    - text: S
+    - paragraph: Sarah M.
+    - paragraph: Small Business Owner
+    - paragraph: "\"Perfect for quick legal questions. Saved me hundreds in consultation fees.\""
+    - text: M
+    - paragraph: Mike R.
+    - paragraph: Freelancer
+    - paragraph: "\"The AI explanations are clear and thorough. Highly recommend!\""
+    - text: L
+    - paragraph: Lisa K.
+    - paragraph: Real Estate Agent
+    - heading "Ready to Get Started?" [level=2]
+    - paragraph: Upload your document and get instant legal insights - FREE Trial Available!
+    - link "Start Your Legal Analysis":
+      - /url: /upload
+    - paragraph:
+      - strong: "Legal Disclaimer:"
+      - text: LexiBot is an AI assistant and not a substitute for professional legal advice. No attorney-client relationship is formed. Documents are encrypted and automatically deleted after use. Always consult with a qualified attorney for legal matters.
+- alert
+```

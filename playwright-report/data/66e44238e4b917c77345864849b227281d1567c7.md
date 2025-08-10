@@ -1,0 +1,77 @@
+# Page snapshot
+
+```yaml
+- navigation:
+  - link "LexiBot Pakistani Legal Assistant":
+    - /url: /
+  - link "Home":
+    - /url: /
+  - link "Legal Help 🇵🇰":
+    - /url: /legal-help
+  - link "Upload PDF New":
+    - /url: /upload
+  - link "Chat":
+    - /url: /chat
+  - link "About":
+    - /url: /about
+  - button
+- main:
+  - heading "Legal Help Center قانونی مدد مرکز" [level=1]
+  - paragraph: Get help with Pakistani legal matters in simple language. Choose your legal issue below or upload documents for analysis.
+  - heading "Family Law" [level=3]
+  - text: Important
+  - paragraph: خاندانی قانون
+  - paragraph: Marriage, divorce, inheritance, child custody
+  - heading "Common Questions:" [level=4]
+  - list:
+    - listitem: • How do I file for divorce in Pakistan?
+    - listitem: • What are my inheritance rights?
+    - listitem: • How to register a marriage?
+    - listitem: • Child custody laws in Pakistan
+  - link "Ask Questions About Family Law":
+    - /url: /chat?category=family&language=english
+  - link "خاندانی قانون کے بارے میں سوال پوچھیں":
+    - /url: /chat?category=family&language=urdu
+  - link "Upload Related Documents":
+    - /url: /upload
+  - heading "Property Law" [level=3]
+  - text: Important
+  - paragraph: جائیداد کا قانون
+  - paragraph: Buying, selling, rent disputes, property registration
+  - heading "Business Law" [level=3]
+  - text: General
+  - paragraph: کاروباری قانون
+  - paragraph: Company registration, contracts, business disputes
+  - heading "Criminal Law" [level=3]
+  - text: Urgent
+  - paragraph: فوجداری قانون
+  - paragraph: FIR, bail, criminal cases, police matters
+  - heading "Civil Law" [level=3]
+  - text: Important
+  - paragraph: دیوانی قانون
+  - paragraph: Contracts, disputes, civil court procedures
+  - heading "Labor Law" [level=3]
+  - text: Important
+  - paragraph: مزدور قانون
+  - paragraph: Employee rights, workplace issues, labor disputes
+  - heading "Emergency Legal Situations ہنگامی قانونی صورتحال" [level=2]
+  - heading "🚨 Immediate Help Needed" [level=3]
+  - list:
+    - listitem: • Arrested or detained
+    - listitem: • Police harassment
+    - listitem: • Domestic violence
+    - listitem: • Property seizure
+  - paragraph: "Contact: Legal Aid Office: 051-111-112-113"
+  - heading "⚠️ Time-Sensitive Matters" [level=3]
+  - list:
+    - listitem: • Court hearing dates
+    - listitem: • Legal notice responses
+    - listitem: • Contract deadlines
+    - listitem: • Appeal time limits
+  - paragraph: Get help within 24-48 hours
+  - heading "📚 Document Analysis Service" [level=3]
+  - paragraph: Upload your legal documents for AI-powered analysis in simple language
+  - link "Analyze My Documents":
+    - /url: /upload
+- alert
+```
