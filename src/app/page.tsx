@@ -90,14 +90,15 @@ export default function Home() {
 
             {/* Enhanced Main Heading */}
             <h1 className="text-5xl sm:text-7xl font-extrabold leading-tight animate-slideInRight">
-              <span className="block gradient-text animate-gradientShift mb-4" data-text="Your AI">Your AI</span>
-              <span className="block gradient-text animate-gradientShift" style={{animationDelay: '0.5s'}} data-text="Legal Assistant">Legal Assistant</span>
+              <span className="block gradient-text animate-gradientShift mb-4" data-text="Pakistani Legal">Pakistani Legal</span>
+              <span className="block gradient-text animate-gradientShift" style={{animationDelay: '0.5s'}} data-text="AI Assistant">AI Assistant</span>
+              <span className="block text-2xl text-slate-300 mt-4 font-normal">قانونی مددگار - Your Legal Helper</span>
             </h1>
 
             {/* Subtitle */}
             <p className="text-xl sm:text-2xl text-slate-300 max-w-3xl mx-auto leading-relaxed animate-fadeIn" style={{animationDelay: '0.8s'}}>
-              Upload any legal document and get instant, AI-powered insights. 
-              <span className="text-amber-400 font-semibold"> No lawyers. No waiting. Just answers.</span>
+              Upload any Pakistani legal document and get instant, AI-powered insights in simple language. 
+              <span className="text-amber-400 font-semibold"> Understanding Pakistani law made easy.</span>
             </p>
 
             {/* Enhanced CTA Button */}

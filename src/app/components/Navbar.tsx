@@ -20,6 +20,7 @@ export default function Navbar() {
 
   const navItems = [
     { href: "/", label: "Home", icon: Scale },
+    { href: "/legal-help", label: "Legal Help", icon: Info, badge: "🇵🇰" },
     { href: "/upload", label: "Upload PDF", icon: Upload, badge: "New" },
     { href: "/chat", label: "Chat", icon: MessageCircle },
     { href: "/about", label: "About", icon: Info },
@@ -44,7 +45,7 @@ export default function Navbar() {
                 LexiBot
               </span>
               <span className="text-xs text-slate-400 -mt-1 hidden sm:block transition-colors duration-300 group-hover:text-amber-300">
-                Your AI Legal Assistant
+                Pakistani Legal Assistant
               </span>
             </div>
           </Link>

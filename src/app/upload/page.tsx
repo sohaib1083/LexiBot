@@ -22,7 +22,7 @@ export default function UploadPage() {
       const timer = setTimeout(() => setCountdown(countdown - 1), 1000);
       return () => clearTimeout(timer);
     } else if (countdown === 0 && vectorStoreId) {
-      router.push('/chat');
+      router.push(`/chat?mode=document&vectorStoreId=${vectorStoreId}`);
     }
   }, [countdown, vectorStoreId, router]);
 
@@ -255,7 +255,7 @@ export default function UploadPage() {
                         </div>
                       ) : (
                         <button
-                          onClick={() => router.push('/chat')}
+                          onClick={() => router.push(`/chat?mode=document&vectorStoreId=${vectorStoreId}`)}
                           className="group inline-flex items-center px-6 py-3 bg-gradient-to-r from-blue-500 to-blue-600 text-white rounded-xl hover:shadow-lg hover:shadow-blue-500/25 transition-all duration-300 hover:scale-105"
                         >
                           Start Chatting

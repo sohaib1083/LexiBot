@@ -217,29 +217,50 @@ async function callGroqAPI(prompt: string): Promise<string> {
         messages: [
           { 
             role: "system", 
-            content: `You are LexiBot, a professional legal AI assistant with extensive knowledge of law and legal practice. You provide comprehensive, accurate, and actionable legal analysis.
+            content: `You are LexiBot, a professional Pakistani legal AI assistant with extensive knowledge of Pakistani law, Islamic jurisprudence, and common law principles applicable in Pakistan. You specialize in making complex legal concepts accessible to layman users.
 
-PROFESSIONAL STANDARDS:
-- Always maintain a professional, authoritative tone
-- Provide detailed legal analysis when possible
-- Cite specific clauses, sections, or provisions when referencing documents
-- Explain legal concepts clearly for non-lawyers
-- Identify potential legal issues, risks, and implications
-- Suggest practical next steps when appropriate
+PAKISTANI LEGAL EXPERTISE:
+- Constitution of Pakistan 1973 and all amendments
+- Pakistan Penal Code (PPC) 1860
+- Code of Civil Procedure (CPC) 1908
+- Code of Criminal Procedure (CrPC) 1898
+- Contract Act 1872 as applicable in Pakistan
+- Companies Act 2017
+- Family Laws Ordinance 1961
+- Muslim Personal Law (Shariat) Application Act 1962
+- Provincial laws and local ordinances
+- Supreme Court and High Court precedents
+
+COMMUNICATION STYLE FOR LAYMEN:
+- Use simple Urdu/English terminology with legal terms explained
+- Provide examples from Pakistani context
+- Explain step-by-step procedures for legal matters
+- Include relevant government departments/authorities
+- Mention applicable fees, timeframes, and required documents
+- Reference specific sections of Pakistani laws when relevant
+
+PRACTICAL GUIDANCE:
+- Suggest which court/forum has jurisdiction
+- Explain the difference between civil and criminal matters
+- Provide templates for common legal documents
+- Explain rights and obligations under Pakistani law
+- Include contact information for relevant authorities when helpful
+- Warn about limitation periods and time-sensitive matters
 
 RESPONSE FORMAT:
-- Use clear headings and bullet points for complex analyses
-- Quote relevant document sections when making legal points
-- Explain both what the document says AND what it means legally
-- Highlight important deadlines, obligations, or rights
-- Note any unusual or concerning provisions
+- Start with a simple summary in layman terms
+- Use headings like "آپ کے حقوق" (Your Rights), "قانونی طریقہ کار" (Legal Procedure)
+- Include both English and Urdu terms for key concepts
+- Provide practical next steps with government department names
+- Use bullet points and clear structure
 
 LIMITATIONS:
-- Base responses strictly on the provided document context
-- If information is insufficient, clearly state what additional information would be needed
-- Always include standard legal disclaimers when providing substantive legal analysis
+- Always clarify this is general legal information, not specific legal advice
+- Recommend consulting a qualified Pakistani lawyer for complex matters
+- Include standard disclaimer about consulting legal professionals
+- Base responses on provided documents and general Pakistani law knowledge
 
-Remember: You are providing legal document analysis, not legal advice. Always recommend consulting with a qualified attorney for specific legal matters.`
+Remember: You serve Pakistani citizens who may not be familiar with legal jargon. Make the law accessible while maintaining accuracy.`
           },
           { role: "user", content: prompt }
         ],
@@ -276,9 +297,9 @@ Remember: You are providing legal document analysis, not legal advice. Always re
 /**
  * Ask a question about a document using RAG
  */
-export async function askQuestion(collectionId: string, question: string): Promise<string> {
+export async function askQuestion(collectionId: string, question: string, language: string = "english"): Promise<string> {
   try {
-    console.log("askQuestion called with:", { collectionId, question });
+    console.log("askQuestion called with:", { collectionId, question, language });
     
     const docs = await querySimilarDocs(collectionId, question, 3);
     console.log("Retrieved docs:", docs.length, "documents");
@@ -286,38 +307,64 @@ export async function askQuestion(collectionId: string, question: string): Promi
     const contextText = docs.join('\n\n');
     console.log("Context text length:", contextText.length);
     
+    const isUrdu = language === "urdu";
+    
     const prompt = `
-LEGAL DOCUMENT ANALYSIS REQUEST
+PAKISTANI LEGAL DOCUMENT ANALYSIS REQUEST
 
 DOCUMENT CONTEXT:
 ${contextText}
 
 CLIENT QUESTION: ${question}
+RESPONSE LANGUAGE: ${language}
 
-INSTRUCTIONS FOR ANALYSIS:
-As a professional legal assistant, provide a comprehensive analysis addressing the following:
+ANALYSIS INSTRUCTIONS:
+As a Pakistani legal assistant, provide analysis for a layman user in ${isUrdu ? 'Urdu with English terms in brackets' : 'English with key Urdu terms in brackets'}:
 
-1. DIRECT ANSWER: Answer the specific question based on the document content
-2. LEGAL IMPLICATIONS: Explain what this means in legal terms
-3. RELEVANT PROVISIONS: Quote specific sections or clauses that support your analysis
-4. POTENTIAL ISSUES: Identify any legal risks, concerns, or red flags
-5. PRACTICAL GUIDANCE: Suggest next steps or actions if applicable
-6. ADDITIONAL CONSIDERATIONS: Note any related legal concepts or requirements
+${isUrdu ? `
+1. خلاصہ (SUMMARY): آسان الفاظ میں وضاحت
+2. آپ کے حقوق (YOUR RIGHTS): یہ دستاویز آپ کو کیا حقوق دیتی ہے؟
+3. قانونی معنی (LEGAL MEANING): پاکستانی قانون کے تحت اس کا کیا مطلب ہے؟
+4. متعلقہ قوانین (RELEVANT LAWS): کون سے پاکستانی قوانین لاگو ہوتے ہیں؟
+5. خطرات اور احتیاط (RISKS & PRECAUTIONS): کن باتوں کا خیال رکھنا ضروری ہے؟
+6. اگلے قدم (NEXT STEPS): عملی اقدامات اور متعلقہ محکمے
+7. ضروری دستاویزات (REQUIRED DOCUMENTS): کیا دستاویزات درکار ہوں گی؟
+8. وقت کی حد (TIME LIMITS): کوئی ڈیڈ لائن یا وقت کی پابندی؟
+` : `
+1. SUMMARY (خلاصہ): Simple explanation of the document
+2. YOUR RIGHTS (آپ کے حقوق): What rights does this document give/protect?
+3. LEGAL MEANING (قانونی معنی): What does this mean under Pakistani law?
+4. RELEVANT LAWS (متعلقہ قوانین): Which Pakistani laws, acts, or sections apply?
+5. RISKS & PRECAUTIONS (خطرات اور احتیاط): What to be careful about?
+6. NEXT STEPS (اگلے قدم): Practical steps with relevant government departments
+7. REQUIRED DOCUMENTS (ضروری دستاویزات): What documents might be needed?
+8. TIME LIMITS (وقت کی حد): Any deadlines or limitation periods?
+`}
 
-FORMAT YOUR RESPONSE:
-- Use clear headings for different sections
-- Quote document text when relevant (use quotation marks)
-- Explain legal terminology in plain language
-- Be specific and actionable where possible
+PAKISTANI CONTEXT:
+- Reference specific Pakistani laws (PPC, CPC, CrPC, Constitution, etc.)
+- Mention relevant courts (District, Session, High Court, Supreme Court)
+- Include government departments (Registrar, Tehsildar, SHO, etc.)
+- Provide fee estimates where applicable
+- Use ${isUrdu ? 'اردو الفاظ انگریزی اصطلاحات کے ساتھ' : 'simple Urdu terms alongside English'}
+
+FORMAT REQUIREMENTS:
+- Use headings in ${isUrdu ? 'اردو' : 'English'} with translation in brackets
+- Quote specific document clauses with "..." 
+- Explain legal jargon in simple terms
+- Include practical examples from Pakistani context
+- Use bullet points for clarity
 
 CONSTRAINTS:
-- Base your analysis ONLY on the provided document content
-- If the document lacks necessary information, clearly state what additional information would be needed
-- Include appropriate legal disclaimers for substantive advice
+- Base analysis ONLY on the provided document
+- If document lacks info, specify what additional documents are needed
+- Always include disclaimer about consulting a Pakistani lawyer
 
-LEGAL DISCLAIMER: This analysis is based solely on the provided document and is for informational purposes only. This does not constitute legal advice. Consult with a qualified attorney for specific legal matters.
+${isUrdu ? 
+`قانونی ڈسکلیمر: یہ تجزیہ صرف فراہم کردہ دستاویز پر مبنی ہے اور یہ صرف معلوماتی مقاصد کے لیے ہے۔ یہ قانونی مشورہ نہیں ہے۔ مخصوص قانونی معاملات کے لیے کسی تجربہ کار پاکستانی وکیل سے رابطہ کریں۔` :
+`LEGAL DISCLAIMER: This analysis is based only on the provided document and is for informational purposes only. This is not legal advice. For specific legal matters, please consult an experienced Pakistani lawyer.`}
 
-ANALYSIS:`;
+RESPONSE:`;
     
     console.log("Calling Groq API...");
     const response = await callGroqAPI(prompt);
